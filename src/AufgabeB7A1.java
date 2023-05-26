@@ -5,7 +5,7 @@ public class AufgabeB7A1 {
      * @param args
      */
     public static void main(String[] args){
-        //TODO: main --Drafted--
+        //TODO: main
         if(args.length != 1){
             System.out.println("Error: Expected command-line argument");
             return;
@@ -27,18 +27,15 @@ public class AufgabeB7A1 {
      * @return
      */
     public static int fibDyn(int n){
-        //TODO: fibDyn --Drafted--
+        //TODO: fibDyn
         int[] fibs = new int[3];
         fibs[0] = 0;
         fibs[1] = 1;
         fibs[2] = fibs[0] + fibs[1];
-        if(n == 0){
-            return fibs[0];
+        if(n <= 1){
+            return n;
         }
-        if(n == 1){
-            return fibs[1];
-        }
-        for(int i = n - 2; i >= 0; i--){
+        for(int i = n - 2; i > 0; i--){
             fibs[0] = fibs[1];
             fibs[1] = fibs[2];
             fibs[2] = fibs[0] + fibs[1];
