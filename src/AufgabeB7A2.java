@@ -21,45 +21,42 @@ import java.util.Scanner;
  *              tabelle[i − 1][j] sonst
  */
 public class AufgabeB7A2 {
+
     /**
-     * void main(String[] args)
-     * Bekommt einen Parameter welcher die Rucksackkapazität bestimmt. Außerdem werden
-     * die Gewichte sowie Gegenstandswerte als zwei Listen mit Leerzeile getrennt übergeben (s.
-     * Beispieldatei B7A2Input1.txt). Das Programm soll danach überprüfen, ob auch wirklich
-     * das Ende des Eingabestreams erreicht wurde und ansonsten eine entsprechende Meldung
-     * ausgeben und terminieren (s. Beispiele). Ausgegeben werden soll der Wert der optimalen
-     * Lösung des Rucksackproblems, also die Summe der eingepackten Gegenstandwerte.
-     * [(1,10) -> 14; (2,12) -> Did not end after 2nd list; (3,12) -> Number of values != number of weights]
-     * @param args
+     * Calculates and prints the optimal solution of the knapsack problem (i.e. the optimal sum of the values). <br>
+     * The maximum capacity is the String at the first index of the argument, parsed to an integer. <br>
+     * The values are read from the systems' Standard-Input up to an empty line. <br>
+     * The weights are read from the systems' Standard-Input after the first empty line. <br>
+     * @Runtime O(n * capacity) - n is the number of objects (or number of lines in Standard-In) and capacity is the first string of the argument, parsed to an integer
+     * @param args Command-Line arguments, expected: one non-negative integer in first string
      */
     public static void main(String[] args){
-        //TODO: main --Error--
+        //TODO: main
         int[] weights;
         int[] values;
         int capacity;
+        Scanner scanner = new Scanner(System.in);
         try {
-            Scanner scanner = new Scanner(System.in);
-            weights = getInput(scanner);
             values = getInput(scanner);
-            if(scanner.hasNextLine()){
-                System.out.println("Number of values does not match the number of weights.");
-                return;
-            }
+            weights = getInput(scanner);
             capacity = Integer.parseInt(args[0]);
         }catch(NumberFormatException e){
-            System.out.println("Error: Encountered problem parsing argument, required: number");
+            System.out.println("Error: Encountered problem parsing input, required: number");
             return;
         }
-        int[][] out = knapsack(values, weights, capacity);
-        int max = 0;
-        for(int i = 0; i < out.length; i++){
-            for(int j = 0; j < out[i].length; j++){
-                //if(out[i][j] > max){
-                    max += out[i][j];
-                //}
-            }
+        if(scanner.hasNextLine()){
+            System.out.println("Error: Input did not end after second list.");
+            return;
         }
-        System.out.println(max);
+        if(weights.length != values.length){
+            System.out.println("Error: The number of values does not match the number of weights.");
+            return;
+        }
+        if(capacity < 0){
+            System.out.println("Error: Capacity received was negative where non-negative was expected.");
+        }
+        int[][] out = knapsack(values, weights, capacity);
+        System.out.println(out[values.length][capacity]);
     }
 
     /**
@@ -68,9 +65,10 @@ public class AufgabeB7A2 {
      * Sollte bis zu der nächsten Leerzeile oder bis zum Ende des Scanners eine Zeile aus einer
      * Nicht-Ganzzahl bestehen, soll die NumberFormatException weitergereicht werden. Die
      * gelesenen Ganzzahlen sollen als Array zurückgegeben werden.
+     * @Runtime O(n) - n is number of lines in the scanners input-stream
      * @param scanner
      * @return
-     * @throws NumberFormatException
+     * @throws NumberFormatException Gets thrown if a line can not be parsed as an integer
      */
     public static int[] getInput(Scanner scanner) throws NumberFormatException{
         //TODO: getInput
@@ -99,7 +97,7 @@ public class AufgabeB7A2 {
      * int[][] knapsack(int[] values, int[] weights, int capacity)
      * Berechnet die optimale Lösung des Rucksackproblems und gibt eine Tabelle mit den
      * Zwischenergebnissen zurück. Die Laufzeit soll in O(values.length · capacity) sein.
-     * [(1,10) -> 14; (2,12) -> Did not end after 2nd list; (3,12) -> Number of values != number of weights]
+     * @Runtime O(weights.length * capacity)
      * @param values
      * @param weights
      * @param capacity
@@ -124,5 +122,4 @@ public class AufgabeB7A2 {
         }
         return table;
     }
-
 }
